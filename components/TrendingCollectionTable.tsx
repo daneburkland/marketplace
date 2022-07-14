@@ -13,6 +13,7 @@ type Props = {
   fallback: {
     collections: paths['/collections/v4']['get']['responses']['200']['schema']
   }
+  collectionSetId?: string
 }
 
 type Volumes = '1DayVolume' | '7DayVolume' | '30DayVolume'

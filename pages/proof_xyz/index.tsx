@@ -53,7 +53,7 @@ const metadata = {
   },
 }
 
-const Home: NextPage<Props> = ({ fallback, collectionSetId }) => {
+const Home: NextPage<Props> = ({ fallback }) => {
   const isSmallDevice = useMediaQuery('only screen and (max-width : 600px)')
   const router = useRouter()
 
