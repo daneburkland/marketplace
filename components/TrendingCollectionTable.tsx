@@ -17,10 +17,14 @@ type Props = {
 
 type Volumes = '1DayVolume' | '7DayVolume' | '30DayVolume'
 
-const TrendingCollectionTable: FC<Props> = ({ fallback }) => {
+const TrendingCollectionTable: FC<Props> = ({ fallback, collectionSetId }) => {
   const isSmallDevice = useMediaQuery('only screen and (max-width : 600px)')
   const router = useRouter()
-  const { collections, ref } = useCollections(router, fallback.collections)
+  const { collections, ref } = useCollections(
+    router,
+    fallback.collections,
+    collectionSetId
+  )
 
   const { data } = collections
 
