@@ -5,6 +5,7 @@ import { FC } from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { FiChevronDown } from 'react-icons/fi'
 import useCollections from 'hooks/useCollections'
+import { paths } from '@reservoir0x/client-sdk'
 
 type Options = 'Last 24 Hours' | 'Last 7 Days' | 'Last 30 Days'
 
@@ -14,11 +15,23 @@ const options: { [x: string]: Options } = {
   '30DayVolume': 'Last 30 Days',
 }
 
-const SortTrendingCollections: FC = () => {
+type Props = {
+  fallback?: {
+    collections: paths['/collections/v4']['get']['responses']['200']['schema']
+  }
+  collectionSetId?: string
+}
+
+const SortTrendingCollections: FC<Props> = ({ collectionSetId, fallback }) => {
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [sortSelection, setSortSelection] = useState<Options>('Last 24 Hours')
-  const { collections } = useCollections(router)
+
+  const { collections } = useCollections(
+    router,
+    fallback?.collections,
+    collectionSetId
+  )
 
   useEffect(() => {
     const sort = router?.query['sort']?.toString()

@@ -51,7 +51,7 @@ const metadata = {
   },
 }
 
-const Home: NextPage<Props> = ({ fallback }) => {
+const Home: NextPage<Props> = ({ fallback, collectionSetId }) => {
   const isSmallDevice = useMediaQuery('only screen and (max-width : 600px)')
   const router = useRouter()
 
@@ -90,11 +90,16 @@ const Home: NextPage<Props> = ({ fallback }) => {
           <div className="reservoir-h4 dark:text-white">
             Trending Collections
           </div>
-          {!isSmallDevice && <SortTrendingCollections />}
+          {!isSmallDevice && (
+            <SortTrendingCollections
+              fallback={fallback}
+              collectionSetId={collectionSetId}
+            />
+          )}
         </div>
         <TrendingCollectionTable
           fallback={fallback}
-          collectionSetId="5f4229c4b0ca3d648d1b75da695c360364f67a668c60743d081af505fdbdbecc"
+          collectionSetId={collectionSetId}
         />
       </div>
     </Layout>
@@ -107,6 +112,7 @@ export const getStaticProps: GetStaticProps<{
   fallback: {
     collections: paths['/collections/v4']['get']['responses']['200']['schema']
   }
+  collectionSetId: string
 }> = async () => {
   const options: RequestInit | undefined = {}
 
@@ -120,12 +126,15 @@ export const getStaticProps: GetStaticProps<{
 
   let query: paths['/collections/v4']['get']['parameters']['query'] = {
     limit: 20,
-    sortBy: '7DayVolume',
+    sortBy: '1DayVolume',
   }
+
+  const collectionSetId =
+    '5f4229c4b0ca3d648d1b75da695c360364f67a668c60743d081af505fdbdbecc'
 
   if (COLLECTION && !COMMUNITY) query.contract = COLLECTION
   if (COMMUNITY) query.community = COMMUNITY
-  query.collectionsSetId = COLLECTION_SET_ID
+  query.collectionsSetId = collectionSetId
 
   const href = setParams(url, query)
   const res = await fetch(href, options)
@@ -137,6 +146,7 @@ export const getStaticProps: GetStaticProps<{
       fallback: {
         collections,
       },
+      collectionSetId,
     },
   }
 }
