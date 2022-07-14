@@ -9,8 +9,6 @@ import { useMediaQuery } from '@react-hookz/web'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-// HACKY temporary route. TODO Update with dynamic
-
 // Environment variables
 // For more information about these variables
 // refer to the README.md file on this repository
