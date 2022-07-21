@@ -177,7 +177,7 @@ function processPosition(
   switch (kind) {
     case 'token':
       tokenId = position?.tokenSetId?.split(':')[2]
-      href = `/${contract}/${tokenId}`
+      href = `/contracts/${contract}/${tokenId}`
       break
     // @ts-ignore
     case 'attribute':

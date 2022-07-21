@@ -8,7 +8,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^3.1.0",
     "@react-hookz/web": "^14.2.2",
+    "aws-amplify": "^4.3.27",
     "next": "latest",
     "next-themes": "^0.2.0",
     "react": "17.0.2",

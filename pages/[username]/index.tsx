@@ -1,5 +1,10 @@
 import Layout from 'components/Layout'
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
+import type {
+  GetStaticProps,
+  InferGetStaticPropsType,
+  NextPage,
+  GetStaticPaths,
+} from 'next'
 import { paths } from '@reservoir0x/client-sdk/dist/types/api'
 import setParams from 'lib/params'
 import Head from 'next/head'
@@ -108,12 +113,19 @@ const Home: NextPage<Props> = ({ fallback, collectionSetId }) => {
 
 export default Home
 
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  }
+}
+
 export const getStaticProps: GetStaticProps<{
   fallback: {
     collections: paths['/collections/v4']['get']['responses']['200']['schema']
   }
   collectionSetId: string
-}> = async () => {
+}> = async ({ params }) => {
   const options: RequestInit | undefined = {}
 
   if (RESERVOIR_API_KEY) {
@@ -122,15 +134,25 @@ export const getStaticProps: GetStaticProps<{
     }
   }
 
+  const proofCollectionSetId =
+    '5f4229c4b0ca3d648d1b75da695c360364f67a668c60743d081af505fdbdbecc'
+
+  let collectionSetId
+  const username = params?.username?.toString()
+  switch (username) {
+    case 'proof_xyz':
+      collectionSetId = proofCollectionSetId
+      break
+    default:
+      collectionSetId = 'foo'
+  }
+
   const url = new URL('/collections/v4', RESERVOIR_API_BASE)
 
   let query: paths['/collections/v4']['get']['parameters']['query'] = {
     limit: 20,
     sortBy: '1DayVolume',
   }
-
-  const collectionSetId =
-    '5f4229c4b0ca3d648d1b75da695c360364f67a668c60743d081af505fdbdbecc'
 
   if (COLLECTION && !COMMUNITY) query.contract = COLLECTION
   if (COMMUNITY) query.community = COMMUNITY

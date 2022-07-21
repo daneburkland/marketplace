@@ -190,7 +190,7 @@ function processToken(
 
   const tokenHref =
     // data.contract && data.tokenId && `/${data.contract}/${data.tokenId}`
-    `/${data.contract}/${data.tokenId}`
+    `/contracts/${data.contract}/${data.tokenId}`
 
   return { ...data, tokenHref }
 }
